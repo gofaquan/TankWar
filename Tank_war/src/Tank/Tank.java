@@ -6,12 +6,27 @@ package Tank;
  */
 
 public class Tank {
-    private int   x;   //横坐标
-    private int   y;   //纵坐标
+    private int   x;                //横坐标
+    private int   y;                //纵坐标
+    private int   orientation;      //移动的方向
+
+
+    public Tank(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public int getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(int orientation) {
+        this.orientation = orientation;
+    }
 
     public int getX() {
         return x;
     }
+
 
     public void setX(int x) {
         this.x = x;
@@ -25,8 +40,5 @@ public class Tank {
         this.y = y;
     }
 
-    public Tank(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+
 }
