@@ -92,7 +92,6 @@ public class EnemyTank extends Tank implements Runnable {
                     break;
             }
 
-
             setDirection((int) (Math.random() * 4));
             //敌方坦克爆炸，退出线程
             if (!isLive) {
