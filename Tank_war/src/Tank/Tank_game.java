@@ -17,7 +17,7 @@ public class Tank_game extends JFrame {
         thread.start();
         this.add(panel);
         //窗口设置
-        this.setSize(1000,750);
+        this.setSize(1300,950);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.addKeyListener(panel);  //添加监听事件

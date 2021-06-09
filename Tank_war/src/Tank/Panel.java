@@ -15,7 +15,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
     Vector<EnemyTank> enemyTanks = new Vector<>();
     //定义爆炸数，存进Vector
     Vector<Boom> booms = new Vector<>();
-    int enemyTank_nums = 3;  //敌人的坦克数量
+    int enemyTank_nums = 9;  //敌人的坦克数量
 
     Image image1 = null;
     Image image2 = null;
@@ -48,7 +48,20 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         image2 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom2.png"));
         image3 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom3.png"));
     }
+    //编写方法，显示我方击毁敌方坦克的信息
+    public void showInfo(Graphics g) {
 
+        //画出玩家的总成绩
+        g.setColor(Color.BLACK);
+        Font font = new Font("宋体", Font.BOLD, 25);
+        g.setFont(font);
+
+        g.drawString("您累积击毁敌方坦克", 1020, 30);
+        create_tank(1020, 60, g, 0, 0);//画出一个敌方坦克
+        g.setColor(Color.BLACK);//这里需要重新设置成黑色
+        g.drawString("0", 1080, 100);
+
+    }
     @Override
     public void run() {
         while (true) {
@@ -135,7 +148,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         super.paint(g);
         //填充矩形
         g.fillRect(0, 0, 1000, 750);
-
+        showInfo(g);
         //调用创建坦克方法生产自己的坦克
         if(my_tank != null && my_tank.isLive) {
             create_tank(my_tank.getX(), my_tank.getY(), g, my_tank.getDirection(), 0);
