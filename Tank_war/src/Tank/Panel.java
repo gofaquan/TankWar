@@ -8,10 +8,10 @@ import java.util.Vector;
 
 @SuppressWarnings({"all"})
 
-public class Panel extends JPanel implements KeyListener {
+public class Panel extends JPanel implements KeyListener , Runnable {
     //定义我方坦克
     MyTank my_tank = null;
-    //定义敌方坦克,放进Vector
+    //定义敌方坦克,放进Vector保存
     Vector<EnemyTank> enemyTanks = new Vector<>();
     int enemyTank_nums = 3;  //敌人的坦克数量
 
@@ -23,18 +23,32 @@ public class Panel extends JPanel implements KeyListener {
         EnemyTank enemyTank= new EnemyTank((100*(i+1)),0);
             //设置方向
             enemyTank.setDirection(2);
-            //加入
+
+            //敌方坦克加入进Vector
             enemyTanks.add(enemyTank);
+
         }
     }
 
     @Override
+    public void run() {
+        while (true){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //更新窗口，让子弹动起来
+            this.repaint();
+        }
+    }
+    @Override
     public void keyTyped(KeyEvent e) {}
     @Override
     public void keyReleased(KeyEvent e) {}
-    //按下W/A/S/D按对应方向移动
     @Override
     public void keyPressed(KeyEvent e) {
+        //按下W/A/S/D按对应方向移动
         if (e.getKeyCode() == KeyEvent.VK_W){ //按下W键
                 my_tank.setDirection(0);   //向上
                 my_tank.moveUp();
@@ -49,6 +63,11 @@ public class Panel extends JPanel implements KeyListener {
             my_tank.moveLeft();
         }
 
+        //如果用户按下的是J,就发射
+        if(e.getKeyCode() == KeyEvent.VK_J) {
+            my_tank.ShotEnemy();
+        }
+        //更新窗口，让坦克动起来
         this.repaint();
 
     }
@@ -61,6 +80,14 @@ public class Panel extends JPanel implements KeyListener {
 
         //调用创建坦克方法生产自己的坦克
         create_tank(my_tank.getX(), my_tank.getY(), g,my_tank.getDirection(),0);
+
+        //画出我方坦克射击的子弹
+        if(my_tank.shot != null && my_tank.shot.isLive == true) {
+            g.draw3DRect(my_tank.shot.x, my_tank.shot.y, 5, 5, false);
+        }
+
+
+
 
 
 
