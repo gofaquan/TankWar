@@ -23,7 +23,7 @@ public class MyTank extends Tank {
                 shot = new Shot(getX(), getY() + 20, 3);
                 break;
         }
-        //启动我们的Shot线程
+        //启动Shot线程
         new Thread(shot).start();
 
     }
