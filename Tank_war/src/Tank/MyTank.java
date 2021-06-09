@@ -1,15 +1,18 @@
 package Tank;
 
+import java.util.Vector;
+@SuppressWarnings({"all"})
 public class MyTank extends Tank {
-    public MyTank(int x, int y){
-        super(x,y);
+    public MyTank(int x, int y) {
+        super(x, y);
     }
 
-    Shot shot = null ;
+    Shot shot = null;
+    Vector<Shot> shots = new Vector<>();
 
-    public void ShotEnemy(){
-        //创建 Shot 对象, 根据当前MyTank的位置和方向来创建Shot
-        switch (getDirection()) {//得到Hero对象方向
+    public void shotEnemyTank() {
+        //创建 Shot 对象, 根据当前Hero对象的位置和方向来创建Shot
+        switch (getDirection()) {
             case 0: //向上
                 shot = new Shot(getX() + 20, getY(), 0);
                 break;
@@ -23,7 +26,10 @@ public class MyTank extends Tank {
                 shot = new Shot(getX(), getY() + 20, 3);
                 break;
         }
-        //启动Shot线程
+
+        //把新创建的shot放入到shots
+        shots.add(shot);
+        //启动我们的Shot线程
         new Thread(shot).start();
 
     }

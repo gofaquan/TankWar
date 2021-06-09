@@ -9,8 +9,8 @@ public class Tank {
     private int   x;                //横坐标
     private int   y;                //纵坐标
     private int direction;      //移动的方向
-    private int speed =4;
-
+    private int speed =1;
+    Boolean isLive = true;
     public void moveUp(){
         y -= speed;
     }
