@@ -18,7 +18,7 @@ public class EnemyTank extends Tank implements Runnable {
     public void setEnemyTanks(Vector<EnemyTank> enemyTanks) {
         this.enemyTanks = enemyTanks;
     }
-    //编写方法，判断当前的这个敌人坦克，是否和 enemyTanks 中的其他坦克发生的重叠或者碰撞
+    //判断当前的这个敌方坦克是否和 enemyTanks 中的其他坦克发生的重叠
     public boolean isTouchingEnemyTank() {
 
         //判断当前敌人坦克(this) 方向
@@ -254,7 +254,7 @@ public class EnemyTank extends Tank implements Runnable {
             switch (getDirection()) {
                 case 0: //向上
                     for (int i = 0; i < 15; i++) {
-                        if (getY() > 0) {
+                        if (getY() > 0 && !isTouchingEnemyTank()) {
                             moveUp();
                         }
                     }
@@ -266,7 +266,7 @@ public class EnemyTank extends Tank implements Runnable {
                     break;
                 case 1: //向右
                     for (int i = 0; i < 15; i++) {
-                        if (getX() + 60 < 1000) {
+                        if (getX() + 60 < 1000 && !isTouchingEnemyTank()) {
                             moveRight();
                         }
                     }
@@ -278,7 +278,7 @@ public class EnemyTank extends Tank implements Runnable {
                     break;
                 case 2: //向下
                     for (int i = 0; i < 15; i++) {
-                        if (getY() + 60 < 750) {
+                        if (getY() + 60 < 750 && !isTouchingEnemyTank()) {
                             moveDown();
                         }
                     }
@@ -290,7 +290,7 @@ public class EnemyTank extends Tank implements Runnable {
                     break;
                 case 3:  //向左
                     for (int i = 0; i < 15; i++) {
-                        if (getX() > 0) {
+                        if (getX() > 0 && !isTouchingEnemyTank()) {
                             moveLeft();
                         }
                     }

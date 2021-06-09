@@ -27,6 +27,8 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         //初始化敌方坦克
         for (int i = 0; i < enemyTank_nums; i++) {
             EnemyTank enemyTank = new EnemyTank((100 * (i + 1)), 0);
+            //传值给敌方坦克防止重叠
+            enemyTank.setEnemyTanks(enemyTanks);
             //设置方向
             enemyTank.setDirection(2);
             //启动敌方坦克线程
