@@ -16,6 +16,5 @@ public class EnemyTank extends Tank  {
     Vector<Shot> shots = new Vector<>();
 
 
-
     }
 

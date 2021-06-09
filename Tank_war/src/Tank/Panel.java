@@ -17,6 +17,10 @@ public class Panel extends JPanel implements KeyListener, Runnable {
     Vector<Boom> booms = new Vector<>();
     int enemyTank_nums = 3;  //敌人的坦克数量
 
+    Image image1 = null;
+    Image image2 = null;
+    Image image3 = null;
+
     public Panel() {
         //初始化一个我方坦克
         my_tank = new MyTank(100, 100);
@@ -34,11 +38,11 @@ public class Panel extends JPanel implements KeyListener, Runnable {
             //敌方坦克加入进Vector
             enemyTanks.add(enemyTank);
         }
-        //定义三张图片，来显示爆炸效果
+        //三张图片，来显示爆炸效果
         //初始化图片对象
-        Image  image1 = Toolkit.getDefaultToolkit().getImage(java.awt.Panel.class.getResource("/bomb_1.gif"));
-        Image image2 = Toolkit.getDefaultToolkit().getImage(java.awt.Panel.class.getResource("/bomb_2.gif"));
-        Image image3 = Toolkit.getDefaultToolkit().getImage(java.awt.Panel.class.getResource("/bomb_3.gif"));
+        image1 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom1.png"));
+        image2 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom2.png"));
+        image3 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom3.png"));
     }
 
     @Override
@@ -100,7 +104,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        //以黑色填充矩形
+        //填充矩形
         g.fillRect(0, 0, 1000, 750);
 
         //调用创建坦克方法生产自己的坦克
@@ -111,6 +115,27 @@ public class Panel extends JPanel implements KeyListener, Runnable {
             g.draw3DRect(my_tank.shot.x, my_tank.shot.y, 5, 5, false);
         }
 
+
+        //画出爆炸效果
+        for (int i = 0; i < booms.size(); i++) {
+            //Vector取出boom
+            Boom boom = booms.get(i);
+            //根据当前boom的count数值切换图片
+            if (boom.count >6){
+                g.drawImage(image1,boom.x,boom.y,60,60,this);
+            }else if (boom.count > 3){
+                g.drawImage(image2,boom.x,boom.y,60,60,this);
+            } else {
+                g.drawImage(image3,boom.x,boom.y,60,60,this);
+            }
+
+            //减少count数值切换接下来的效果
+            boom.countDown();
+            //爆炸完毕移除这个boom
+            if (boom.count ==0){
+                booms.remove(boom);
+            }
+        }
 
         //画出敌人的坦克
         for (int i = 0; i < enemyTanks.size(); i++) {

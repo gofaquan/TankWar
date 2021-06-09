@@ -8,7 +8,7 @@ public class Boom {
     public void countDown(){
         if (count >0){
             count--;
-        }else {
+        } else {
             isLive = false;
         }
     }
