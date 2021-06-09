@@ -231,7 +231,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     s.isLive = false;
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
-                    booms.add(new Boom(enemyTank.getX(),enemyTank.getY());
+                    booms.add(new Boom(enemyTank.getX(),enemyTank.getY()));
                 }
                 break;
         }
