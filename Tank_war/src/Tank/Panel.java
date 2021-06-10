@@ -46,6 +46,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         }
         //三张图片，来显示爆炸效果
         //初始化图片对象
+
         image1 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom1.png"));
         image2 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom2.png"));
         image3 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom3.png"));
