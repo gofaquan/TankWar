@@ -1,6 +1,8 @@
 package Tank;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * main函数
@@ -21,5 +23,14 @@ public class Tank_game extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.addKeyListener(panel);  //添加监听事件
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("你正在关闭窗口");
+                Records.Save();
+                System.exit(0);
+            }
+        });
     }
 }

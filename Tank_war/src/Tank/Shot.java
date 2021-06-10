@@ -4,7 +4,7 @@ public class Shot implements Runnable {
     int x;            //横坐标
     int y;           //纵坐标
     int direction;   //方向
-    int speed = 2;       //速度
+    int speed = 10;       //速度
     boolean isLive = true;  //子弹进程是否存在
 
 

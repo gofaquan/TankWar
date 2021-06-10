@@ -22,8 +22,10 @@ public class Panel extends JPanel implements KeyListener, Runnable {
     Image image3 = null;
 
     public Panel() {
+        //同步上次的坦克数量及坐标
+        Records.setAllEnemyTankNum(enemyTanks);
         //初始化一个我方坦克
-        my_tank = new MyTank(100, 100);
+        my_tank = new MyTank(900, 600);
         //初始化敌方坦克
         for (int i = 0; i < enemyTank_nums; i++) {
             EnemyTank enemyTank = new EnemyTank((100 * (i + 1)), 0);
@@ -59,7 +61,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         g.drawString("您累积击毁敌方坦克", 1020, 30);
         create_tank(1020, 60, g, 0, 0);//画出一个敌方坦克
         g.setColor(Color.BLACK);//这里需要重新设置成黑色
-        g.drawString("0", 1080, 100);
+        g.drawString(Records.getAllEnemyTankNum()+"", 1080, 100);
 
     }
     @Override
@@ -276,6 +278,9 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     s.isLive = false;
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
+                    if (enemyTank instanceof EnemyTank){
+                        Records.addAllEnemyTankNum();
+                    }
                     booms.add(new Boom(enemyTank.getX(), enemyTank.getY()));
                 }
                 break;
@@ -286,6 +291,9 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     s.isLive = false;
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
+                    if (enemyTank instanceof EnemyTank){
+                        Records.addAllEnemyTankNum();
+                    }
                     booms.add(new Boom(enemyTank.getX(), enemyTank.getY()));
                 }
                 break;
@@ -296,6 +304,9 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     s.isLive = false;
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
+                    if (enemyTank instanceof EnemyTank){
+                        Records.addAllEnemyTankNum();
+                    }
                     booms.add(new Boom(enemyTank.getX(), enemyTank.getY()));
                 }
                 break;
@@ -306,6 +317,9 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     s.isLive = false;
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
+                    if (enemyTank instanceof EnemyTank){
+                        Records.addAllEnemyTankNum();
+                    }
                     booms.add(new Boom(enemyTank.getX(), enemyTank.getY()));
                 }
                 break;
