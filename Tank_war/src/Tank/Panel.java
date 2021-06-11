@@ -7,6 +7,16 @@ import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.Vector;
 
+/**
+ * @title: Panel
+ * @package Tank
+ * @description:
+ * @author: kashimashino
+ * @date: 2021-06-11 上午7:27
+ * @version: V2.0
+ */
+
+
 @SuppressWarnings({"all"})
 
 public class Panel extends JPanel implements KeyListener, Runnable {
@@ -18,26 +28,28 @@ public class Panel extends JPanel implements KeyListener, Runnable {
     Vector<Boom> booms = new Vector<>();
     int enemyTank_nums = 8;  //敌人的坦克数量
     Vector<EnemyInfo> enemyInfos = new Vector<>();
-
+    //定义爆炸的三张图片
     Image image1 = null;
     Image image2 = null;
     Image image3 = null;
 
     public Panel(String option) {
-        File file = new File(Records.getRecordFile());
+      //验证是否存在该文件
+        File file = new File(Records.getRecordFilePath());
         if (file.exists()) {
+            //同步上次的坦克数量及坐标
             enemyInfos = Records.getEnemyInfos();
+            Records.setAllEnemyTank(enemyTanks);
         } else {
             System.out.println("文件不存在，只能开启新的游戏");
             option = "1";
         }
-        enemyInfos = Records.getEnemyInfos();
-        //同步上次的坦克数量及坐标
-        Records.setAllEnemyTank(enemyTanks);
+
         //初始化一个我方坦克
         my_tank = new MyTank(900, 550);
 
-        switch (option){
+        //选择新游戏还是继续上局
+        switch (option) {
             case "1":   //新游戏
                 //初始化敌方坦克
                 for (int i = 0; i < enemyTank_nums; i++) {
@@ -85,35 +97,49 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         }
 
         //三张图片，来显示爆炸效果
-        //初始化图片对象
-
         image1 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom1.png"));
         image2 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom2.png"));
         image3 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom3.png"));
     }
-    //编写方法，显示我方击毁敌方坦克的信息
-    public void showInfo(Graphics g) {
 
-        //画出玩家的总成绩
+    /**
+     *@title: showInfo
+     *@description: TODO
+     *@author: archLinux
+     *@date: 2021/6/11 上午7:58
+     *@param: [g]
+     *@return: void
+     *显示我方击毁敌方坦克的信息
+     */
+    public void showInfo(Graphics g) {
+        //右侧的画板
         g.setColor(Color.BLACK);
         Font font = new Font("宋体", Font.BOLD, 25);
         g.setFont(font);
-
         g.drawString("您累积击毁敌方坦克", 1020, 30);
         create_tank(1020, 60, g, 0, 0);//画出一个敌方坦克
         g.setColor(Color.BLACK);//这里需要重新设置成黑色
-        g.drawString(Records.getAllEnemyTankNum()+"", 1080, 100);
+        //画出玩家的总成绩
+        g.drawString(Records.getAllEnemyTankNum() + "", 1080, 100);
 
     }
+    /**
+     *@title: run
+     *@author: archLinux
+     *@date: 2021/6/11 上午7:46
+     *@param: []
+     *@return: void
+     *刷新线程的动作
+     */
     @Override
     public void run() {
         while (true) {
+            //每隔100ms刷新一次
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             //判断是我们子弹是否击中了敌人坦克
             hitEnemyTank();
             //判断是我们是否被击中了
@@ -123,31 +149,56 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         }
     }
 
+    /**
+     *@title: hitEnemyTank
+     *@author: archLinux
+     *@date: 2021/6/11 上午7:48
+     *@param: []
+     *@return: void
+     *我方发射子弹摧毁敌方
+     */
     public void hitEnemyTank() {
-
-        //遍历我们的子弹
-        for(int j = 0;j < my_tank.shots.size();j++) {
-            Shot shot = my_tank.shots.get(j);
-            //判断是否击中了敌人坦克
-            if (shot != null && my_tank.shot.isLive) {//当我的子弹还存活
-                //遍历敌人所有的坦克
-                for (int i = 0; i < enemyTanks.size(); i++) {
-                    EnemyTank enemyTank = enemyTanks.get(i);
-                    hitEnemy(my_tank.shot, enemyTank);
-                }
-
+//        //遍历我们的子弹
+//        for(int j = 0;j < my_tank.shots.size();j++) {
+//            Shot shot = my_tank.shots.get(j);
+//            //判断是否击中了敌人坦克
+//            if (shot != null && my_tank.shot.isLive) {//当我的子弹还存活
+//                //遍历敌人所有的坦克
+//                for (int i = 0; i < enemyTanks.size(); i++) {
+//                    EnemyTank enemyTank = enemyTanks.get(i);
+//                    hitEnemy(my_tank.shot, enemyTank);
+//                }
+//
+//            }
+//        }
+        //单颗子弹。
+        if (my_tank.shot != null && my_tank.shot.isLive) {//当我的子弹还存活
+            //遍历敌人所有的坦克
+            for (int i = 0; i < enemyTanks.size(); i++) {
+                EnemyTank enemyTank = enemyTanks.get(i);
+                hitEnemy(my_tank.shot, enemyTank);
             }
         }
     }
 
+
+    //用不上的函数
     @Override
     public void keyTyped(KeyEvent e) {
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
     }
 
+
+    /**
+     *@title: keyPressed
+     *@author: archLinux
+     *@date: 2021/6/11 上午7:50
+     *@param: [e]
+     *@return: void
+     *监听按键的动作发生做出回应
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         //按下W/A/S/D按对应方向移动
@@ -156,18 +207,21 @@ public class Panel extends JPanel implements KeyListener, Runnable {
             if (my_tank.getY() > 0) {
                 my_tank.moveUp();
             }
-        } else if (e.getKeyCode() == KeyEvent.VK_D) { //按下D键
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_D) { //按下D键
             my_tank.setDirection(1);   //向右
             if (my_tank.getX() + 60 < 1000) {
 
                 my_tank.moveRight();
             }
-        } else if (e.getKeyCode() == KeyEvent.VK_S) {//按下S键
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_S) {//按下S键
             my_tank.setDirection(2);   //向下
             if (my_tank.getY() + 60 < 750) {
                 my_tank.moveDown();
             }
-        } else if (e.getKeyCode() == KeyEvent.VK_A) {//按下A键
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_A) {//按下A键
             my_tank.setDirection(3);   //向左
             if (my_tank.getX() > 0) {
                 my_tank.moveLeft();
@@ -176,16 +230,25 @@ public class Panel extends JPanel implements KeyListener, Runnable {
 
         //如果用户按下的是J,就发射
         if (e.getKeyCode() == KeyEvent.VK_J) {
-
+            //发射单颗子弹
+            if (my_tank.shot == null || !my_tank.shot.isLive) {
+                my_tank.shotEnemyTank();
+            }
             //发射多颗子弹
-            my_tank.shotEnemyTank();
+//            my_tank.shotEnemyTank();
 
         }
         //更新窗口，让坦克动起来
         this.repaint();
-
     }
-
+    /**
+     *@title: paint
+     *@author: archLinux
+     *@date: 2021/6/11 上午7:52
+     *@param: [g]
+     *@return: void
+     *画板，写出重绘内容
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -193,20 +256,25 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         g.fillRect(0, 0, 1000, 750);
         showInfo(g);
         //调用创建坦克方法生产自己的坦克
-        if(my_tank != null && my_tank.isLive) {
+        if (my_tank != null && my_tank.isLive) {
             create_tank(my_tank.getX(), my_tank.getY(), g, my_tank.getDirection(), 0);
         }
-        //画出我方坦克射击的子弹
-        for(int i = 0; i < my_tank.shots.size(); i++) {
-            Shot shot = my_tank.shots.get(i);
-            if (shot != null && shot.isLive) {
-                g.draw3DRect(shot.x, shot.y, 5, 5, false);
+        //画出射击的子弹
+        if (my_tank.shot != null && my_tank.shot.isLive == true) {
+            g.draw3DRect(my_tank.shot.x, my_tank.shot.y, 5, 5, false);
 
-            } else {//如果该shot已经销毁 ,就从shots集合中拿掉
-                my_tank.shots.remove(shot);
-            }
         }
-
+        //多颗子弹
+//        //画出我方坦克射击的子弹
+//        for (int i = 0; i < my_tank.shots.size(); i++) {
+//            Shot shot = my_tank.shots.get(i);
+//            if (shot != null && shot.isLive) {
+//                g.draw3DRect(shot.x, shot.y, 5, 5, false);
+//
+//            } else {//如果该shot已经销毁 ,就从shots集合中拿掉
+//                my_tank.shots.remove(shot);
+//            }
+//        }
 
 
         //画出爆炸效果
@@ -255,17 +323,15 @@ public class Panel extends JPanel implements KeyListener, Runnable {
 
 
     /**
-     * tank
-     *
-     * @param x         横坐标
-     * @param y         纵坐标
-     * @param g         画笔功能
-     * @param direction 坦克移动方向
-     * @param type      坦克类型(我方或敌方
+     *@title: create_tank
+     *@author: archLinux
+     *@date: 2021/6/11 上午7:09
+     *@param: [x, y, g, direction, type] x:横坐标 y:纵坐标 g:画笔 type:决定是我方坦克还是敌方坦克
+     *@return: void
+     *画出坦克
      */
-
-    //创建坦克
     public void create_tank(int x, int y, Graphics g, int direction, int type) {
+
         //两方的坦克颜色
         switch (type) {
             case 0:
@@ -275,7 +341,6 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                 g.setColor(Color.yellow);  //敌方坦克颜色，黄色
                 break;
         }
-
         //坦克朝的方向
         switch (direction) {
             case 0: //表示向上
@@ -309,8 +374,16 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         }
     }
 
-    //判断子弹是否击中敌人
-    public void hitEnemy(Shot s,Tank enemyTank) {
+    /**
+     *@title: hitEnemy
+     *@author: archLinux
+     *@date: 2021/6/11 上午7:08
+     *@param: [s, enemyTank]         s:子弹     enemyTank:我方或敌方坦克
+     *@return: void
+     *判断子弹是否击中敌人
+     */
+
+    public void hitEnemy(Shot s, Tank enemyTank) {
         switch (enemyTank.getDirection()) {
             //敌人坦克向上
             case 0:
@@ -319,7 +392,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     s.isLive = false;
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
-                    if (enemyTank instanceof EnemyTank){
+                    if (enemyTank instanceof EnemyTank) {
                         Records.addAllEnemyTankNum();
                     }
                     booms.add(new Boom(enemyTank.getX(), enemyTank.getY()));
@@ -332,7 +405,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     s.isLive = false;
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
-                    if (enemyTank instanceof EnemyTank){
+                    if (enemyTank instanceof EnemyTank) {
                         Records.addAllEnemyTankNum();
                     }
                     booms.add(new Boom(enemyTank.getX(), enemyTank.getY()));
@@ -345,7 +418,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     s.isLive = false;
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
-                    if (enemyTank instanceof EnemyTank){
+                    if (enemyTank instanceof EnemyTank) {
                         Records.addAllEnemyTankNum();
                     }
                     booms.add(new Boom(enemyTank.getX(), enemyTank.getY()));
@@ -358,7 +431,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     s.isLive = false;
                     enemyTank.isLive = false;
                     enemyTanks.remove(enemyTank);
-                    if (enemyTank instanceof EnemyTank){
+                    if (enemyTank instanceof EnemyTank) {
                         Records.addAllEnemyTankNum();
                     }
                     booms.add(new Boom(enemyTank.getX(), enemyTank.getY()));
@@ -367,7 +440,14 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         }
     }
 
-    //编写方法，判断敌人坦克是否击中我的坦克
+    /**
+     *@title: hitMyTank
+     *@author: archLinux
+     *@date: 2021/6/11 上午7:07
+     *@param: []
+     *@return: void
+     *判断敌人坦克是否击中我的坦克
+     */
     public void hitMyTank() {
         //遍历所有的敌人坦克
         for (int i = 0; i < enemyTanks.size(); i++) {

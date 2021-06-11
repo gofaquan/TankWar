@@ -1,5 +1,14 @@
 package Tank;
 
+/**
+ * @title: Shot
+ * @package Tank
+ * @description:
+ * @author: kashimashino
+ * @date: 2021-06-11 上午6:28
+ * @version: V1.3
+*/
+@SuppressWarnings({"all"})
 public class Shot implements Runnable {
     int x;            //横坐标
     int y;           //纵坐标
@@ -14,7 +23,17 @@ public class Shot implements Runnable {
         this.direction = direction;
     }
 
-    @Override   //射击
+
+    /**
+     *@title: run
+     *@author: archLinux
+     *@date: 2021/6/11 上午8:09
+     *@param: []
+     *@return: void
+     *射击
+     */
+
+    @Override
     public void run() {
         while (isLive) {
             try {

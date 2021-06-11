@@ -1,16 +1,24 @@
 package Tank;
 
-/**
- * @author archLinux
- *
- */
 
+/**
+ * @title: Tank
+ * @package Tank
+ * @description:
+ * @author: kashimashino
+ * @date: 2021-06-11 上午6:28
+ * @version: V1.0
+*/
+
+@SuppressWarnings({"all"})
 public class Tank {
     private int   x;                //横坐标
     private int   y;                //纵坐标
     private int direction;      //移动的方向
     private int speed =2;
     Boolean isLive = true;
+
+//移动的函数，对应上右下左
     public void moveUp(){
         y -= speed;
     }

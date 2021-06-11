@@ -2,25 +2,41 @@ package Tank;
 
 import java.util.Vector;
 
+
 /**
- * 敌人的坦克
- */
+ * @title: EnemyTank
+ * @package Tank
+ * @description:
+ * @author: kashimashino
+ * @date: 2021-06-8 下午4:54
+ * 继承父类Tank
+ * @version: V1.1
+*/
+
 @SuppressWarnings({"all"})
 public class EnemyTank extends Tank implements Runnable {
+
     public EnemyTank(int x, int y) {
         super(x, y);
     }
 
-    Vector<Shot> shots = new Vector<>();
+    //敌方坦克获取其它每个坦克的位置防止重叠：
 
-    Vector<EnemyTank> enemyTanks = new Vector<>();
-    //同步其它敌方坦克的位置
-    public void setEnemyTanks(Vector<EnemyTank> enemyTanks) {
+        //存放敌方坦克位置
+        Vector<EnemyTank> enemyTanks = new Vector<>();
+        //同步其它敌方坦克的位置
+        public void setEnemyTanks (Vector < EnemyTank > enemyTanks) {
         this.enemyTanks = enemyTanks;
     }
-    //判断当前的这个敌方坦克是否和 enemyTanks 中的其他坦克发生的重叠
-    public boolean isTouchingEnemyTank() {
-
+    /**
+     *@title: isTouchingEnemyTank
+     *@author: archLinux
+     *@date: 2021/6/11 上午6:56
+     *@param: []
+     *@return: boolean
+     *判断当前的这个敌方坦克是否和 enemyTanks 中的其他坦克发生的重叠
+     */
+        public boolean isTouchingEnemyTank () {
         //判断当前敌人坦克(this) 方向
         switch (this.getDirection()) {
             case 0: //上
@@ -36,14 +52,14 @@ public class EnemyTank extends Tank implements Runnable {
 
                         if (enemyTank.getDirection() == 0 || enemyTank.getDirection() == 2) {
                             //2. 当前坦克 左上角的坐标 [this.getX(), this.getY()]
-                            if (       this.getX() >= enemyTank.getX()
+                            if (this.getX() >= enemyTank.getX()
                                     && this.getX() <= enemyTank.getX() + 40
                                     && this.getY() >= enemyTank.getY()
                                     && this.getY() <= enemyTank.getY() + 60) {
                                 return true;
                             }
                             //3. 当前坦克 右上角的坐标 [this.getX() + 40, this.getY()]
-                            if (       this.getX() + 40 >= enemyTank.getX()
+                            if (this.getX() + 40 >= enemyTank.getX()
                                     && this.getX() + 40 <= enemyTank.getX() + 40
                                     && this.getY() >= enemyTank.getY()
                                     && this.getY() <= enemyTank.getY() + 60) {
@@ -55,14 +71,14 @@ public class EnemyTank extends Tank implements Runnable {
                         //                     y的范围 [enemyTank.getY(), enemyTank.getY() + 40]
                         if (enemyTank.getDirection() == 1 || enemyTank.getDirection() == 3) {
                             //2. 当前坦克 左上角的坐标 [this.getX(), this.getY()]
-                            if (    this.getX() >= enemyTank.getX()
+                            if (this.getX() >= enemyTank.getX()
                                     && this.getX() <= enemyTank.getX() + 60
                                     && this.getY() >= enemyTank.getY()
                                     && this.getY() <= enemyTank.getY() + 40) {
                                 return true;
                             }
                             //3. 当前坦克 右上角的坐标 [this.getX() + 40, this.getY()]
-                            if (    this.getX() + 40 >= enemyTank.getX()
+                            if (this.getX() + 40 >= enemyTank.getX()
                                     && this.getX() + 40 <= enemyTank.getX() + 60
                                     && this.getY() >= enemyTank.getY()
                                     && this.getY() <= enemyTank.getY() + 40) {
@@ -86,14 +102,14 @@ public class EnemyTank extends Tank implements Runnable {
 
                         if (enemyTank.getDirection() == 0 || enemyTank.getDirection() == 2) {
                             //2. 当前坦克 右上角的坐标 [this.getX() + 60, this.getY()]
-                            if (       this.getX() + 60 >= enemyTank.getX()
+                            if (this.getX() + 60 >= enemyTank.getX()
                                     && this.getX() + 60 <= enemyTank.getX() + 40
                                     && this.getY() >= enemyTank.getY()
                                     && this.getY() <= enemyTank.getY() + 60) {
                                 return true;
                             }
                             //3. 当前坦克 右下角的坐标 [this.getX() + 60, this.getY() + 40]
-                            if (       this.getX() + 60 >= enemyTank.getX()
+                            if (this.getX() + 60 >= enemyTank.getX()
                                     && this.getX() + 60 <= enemyTank.getX() + 40
                                     && this.getY() + 40 >= enemyTank.getY()
                                     && this.getY() + 40 <= enemyTank.getY() + 60) {
@@ -105,14 +121,14 @@ public class EnemyTank extends Tank implements Runnable {
                         //                     y的范围 [enemyTank.getY(), enemyTank.getY() + 40]
                         if (enemyTank.getDirection() == 1 || enemyTank.getDirection() == 3) {
                             //2. 当前坦克 右上角的坐标 [this.getX() + 60, this.getY()]
-                            if (       this.getX() + 60 >= enemyTank.getX()
+                            if (this.getX() + 60 >= enemyTank.getX()
                                     && this.getX() + 60 <= enemyTank.getX() + 60
                                     && this.getY() >= enemyTank.getY()
                                     && this.getY() <= enemyTank.getY() + 40) {
                                 return true;
                             }
                             //3. 当前坦克 右下角的坐标 [this.getX() + 60, this.getY() + 40]
-                            if (       this.getX() + 60 >= enemyTank.getX()
+                            if (this.getX() + 60 >= enemyTank.getX()
                                     && this.getX() + 60 <= enemyTank.getX() + 60
                                     && this.getY() + 40 >= enemyTank.getY()
                                     && this.getY() + 40 <= enemyTank.getY() + 40) {
@@ -135,14 +151,14 @@ public class EnemyTank extends Tank implements Runnable {
 
                         if (enemyTank.getDirection() == 0 || enemyTank.getDirection() == 2) {
                             //2. 当前坦克 左下角的坐标 [this.getX(), this.getY() + 60]
-                            if (       this.getX() >= enemyTank.getX()
+                            if (this.getX() >= enemyTank.getX()
                                     && this.getX() <= enemyTank.getX() + 40
                                     && this.getY() + 60 >= enemyTank.getY()
                                     && this.getY() + 60 <= enemyTank.getY() + 60) {
                                 return true;
                             }
                             //3. 当前坦克 右下角的坐标 [this.getX() + 40, this.getY() + 60]
-                            if (       this.getX() + 40 >= enemyTank.getX()
+                            if (this.getX() + 40 >= enemyTank.getX()
                                     && this.getX() + 40 <= enemyTank.getX() + 40
                                     && this.getY() + 60 >= enemyTank.getY()
                                     && this.getY() + 60 <= enemyTank.getY() + 60) {
@@ -154,14 +170,14 @@ public class EnemyTank extends Tank implements Runnable {
                         //                     y的范围 [enemyTank.getY(), enemyTank.getY() + 40]
                         if (enemyTank.getDirection() == 1 || enemyTank.getDirection() == 3) {
                             //2. 当前坦克 左下角的坐标 [this.getX(), this.getY() + 60]
-                            if (       this.getX() >= enemyTank.getX()
+                            if (this.getX() >= enemyTank.getX()
                                     && this.getX() <= enemyTank.getX() + 60
                                     && this.getY() + 60 >= enemyTank.getY()
                                     && this.getY() + 60 <= enemyTank.getY() + 40) {
                                 return true;
                             }
                             //3. 当前坦克 右下角的坐标 [this.getX() + 40, this.getY() + 60]
-                            if (       this.getX() + 40 >= enemyTank.getX()
+                            if (this.getX() + 40 >= enemyTank.getX()
                                     && this.getX() + 40 <= enemyTank.getX() + 60
                                     && this.getY() + 60 >= enemyTank.getY()
                                     && this.getY() + 60 <= enemyTank.getY() + 40) {
@@ -184,14 +200,14 @@ public class EnemyTank extends Tank implements Runnable {
 
                         if (enemyTank.getDirection() == 0 || enemyTank.getDirection() == 2) {
                             //2. 当前坦克 左上角的坐标 [this.getX(), this.getY() ]
-                            if (       this.getX() >= enemyTank.getX()
+                            if (this.getX() >= enemyTank.getX()
                                     && this.getX() <= enemyTank.getX() + 40
                                     && this.getY() >= enemyTank.getY()
                                     && this.getY() <= enemyTank.getY() + 60) {
                                 return true;
                             }
                             //3. 当前坦克 左下角的坐标 [this.getX(), this.getY() + 40]
-                            if (       this.getX() >= enemyTank.getX()
+                            if (this.getX() >= enemyTank.getX()
                                     && this.getX() <= enemyTank.getX() + 40
                                     && this.getY() + 40 >= enemyTank.getY()
                                     && this.getY() + 40 <= enemyTank.getY() + 60) {
@@ -203,14 +219,14 @@ public class EnemyTank extends Tank implements Runnable {
                         //                     y的范围 [enemyTank.getY(), enemyTank.getY() + 40]
                         if (enemyTank.getDirection() == 1 || enemyTank.getDirection() == 3) {
                             //2. 当前坦克 左上角的坐标 [this.getX(), this.getY() ]
-                            if (       this.getX() >= enemyTank.getX()
+                            if (this.getX() >= enemyTank.getX()
                                     && this.getX() <= enemyTank.getX() + 60
                                     && this.getY() >= enemyTank.getY()
                                     && this.getY() <= enemyTank.getY() + 40) {
                                 return true;
                             }
                             //3. 当前坦克 左下角的坐标 [this.getX(), this.getY() + 40]
-                            if (       this.getX() >= enemyTank.getX()
+                            if (this.getX() >= enemyTank.getX()
                                     && this.getX() <= enemyTank.getX() + 60
                                     && this.getY() + 40 >= enemyTank.getY()
                                     && this.getY() + 40 <= enemyTank.getY() + 40) {
@@ -221,10 +237,21 @@ public class EnemyTank extends Tank implements Runnable {
                 }
                 break;
         }
-        return  false;
+        return false;
     }
 
 
+   //子弹发射以及坦克随机移动
+    /**
+     *@title: run
+     *@author: archLinux
+     *@date: 2021/6/11 上午6:54
+     *@param: []
+     *@return: void
+     *启动敌方坦克线程后的子弹发射及坦克随机移动
+     */
+    //定义敌方坦克的子弹Vector来保存每个敌方坦克的子弹
+    Vector<Shot> shots = new Vector<>();
     @Override
     public void run() {
         while (true) {
