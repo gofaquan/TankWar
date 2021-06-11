@@ -30,7 +30,49 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         //初始化一个我方坦克
         my_tank = new MyTank(900, 600);
 
+        switch (option){
+            case "1":   //新游戏
+                //初始化敌方坦克
+                for (int i = 0; i < enemyTank_nums; i++) {
+                    EnemyTank enemyTank = new EnemyTank((100 * (i + 1)), 0);
+                    //传值给敌方坦克防止重叠
+                    enemyTank.setEnemyTanks(enemyTanks);
+                    //设置方向
+                    enemyTank.setDirection(2);
+                    //启动敌方坦克线程
+                    new Thread(enemyTank).start();
+                    //给该enemyTank 加入一颗子弹
+                    Shot shot = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirection());
+                    //加入到enemyTank的Vector
+                    enemyTank.shots.add(shot);
+                    //启动 shot
+                    new Thread(shot).start();
+                    //敌方坦克加入进Vector
+                    enemyTanks.add(enemyTank);
+                }
+            case "2":   //继续上局
+                //初始化敌人坦克
+                for (int i = 0; i < enemyInfos.size(); i++) {
+                    EnemyInfo enemyInfo = enemyInfos.get(i);
+                    //创建一个敌人的坦克
+                    EnemyTank enemyTank = new EnemyTank(enemyInfo.getX(), enemyInfo.getY());
+                    //将enemyTanks 设置给 enemyTank !!!
+                    enemyTank.setEnemyTanks(enemyTanks);
+                    //设置方向
+                    enemyTank.setDirection(enemyInfo.getDirection());
+                    //启动敌人坦克线程，让他动起来
+                    new Thread(enemyTank).start();
+                    //给该enemyTank 加入一颗子弹
+                    Shot shot = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirection());
+                    //加入enemyTank的Vector 成员
+                    enemyTank.shots.add(shot);
+                    //启动 shot
+                    new Thread(shot).start();
+                    //敌方坦克加入进Vector
+                    enemyTanks.add(enemyTank);
+                }
 
+        }
 
         //三张图片，来显示爆炸效果
         //初始化图片对象
