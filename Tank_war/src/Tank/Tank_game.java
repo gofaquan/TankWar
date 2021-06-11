@@ -12,7 +12,6 @@ public class Tank_game extends JFrame {
     Panel panel = null;
     static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
-
         new Tank_game();
     }
 

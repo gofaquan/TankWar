@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.Vector;
 
 @SuppressWarnings({"all"})
@@ -15,7 +16,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
     Vector<EnemyTank> enemyTanks = new Vector<>();
     //定义爆炸数，存进Vector
     Vector<Boom> booms = new Vector<>();
-    int enemyTank_nums = 9;  //敌人的坦克数量
+    int enemyTank_nums = 8;  //敌人的坦克数量
     Vector<EnemyInfo> enemyInfos = new Vector<>();
 
     Image image1 = null;
@@ -23,12 +24,13 @@ public class Panel extends JPanel implements KeyListener, Runnable {
     Image image3 = null;
 
     public Panel(String option) {
-        //获取上局信息
+        File file = new File(Records.getRecordFile());
+
         enemyInfos = Records.getEnemyInfos();
         //同步上次的坦克数量及坐标
-        Records.setAllEnemyTankNum(enemyTanks);
+        Records.setAllEnemyTank(enemyTanks);
         //初始化一个我方坦克
-        my_tank = new MyTank(900, 600);
+        my_tank = new MyTank(900, 550);
 
         switch (option){
             case "1":   //新游戏
@@ -50,6 +52,7 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     //敌方坦克加入进Vector
                     enemyTanks.add(enemyTank);
                 }
+                break;
             case "2":   //继续上局
                 //初始化敌人坦克
                 for (int i = 0; i < enemyInfos.size(); i++) {
@@ -71,7 +74,9 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                     //敌方坦克加入进Vector
                     enemyTanks.add(enemyTank);
                 }
-
+                break;
+            default:
+                System.out.println("你的输入有误...");
         }
 
         //三张图片，来显示爆炸效果
