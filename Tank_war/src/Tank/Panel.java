@@ -16,34 +16,22 @@ public class Panel extends JPanel implements KeyListener, Runnable {
     //定义爆炸数，存进Vector
     Vector<Boom> booms = new Vector<>();
     int enemyTank_nums = 9;  //敌人的坦克数量
+    Vector<EnemyInfo> enemyInfos = new Vector<>();
 
     Image image1 = null;
     Image image2 = null;
     Image image3 = null;
 
-    public Panel() {
+    public Panel(String option) {
+        //获取上局信息
+        enemyInfos = Records.getEnemyInfos();
         //同步上次的坦克数量及坐标
         Records.setAllEnemyTankNum(enemyTanks);
         //初始化一个我方坦克
         my_tank = new MyTank(900, 600);
-        //初始化敌方坦克
-        for (int i = 0; i < enemyTank_nums; i++) {
-            EnemyTank enemyTank = new EnemyTank((100 * (i + 1)), 0);
-            //传值给敌方坦克防止重叠
-            enemyTank.setEnemyTanks(enemyTanks);
-            //设置方向
-            enemyTank.setDirection(2);
-            //启动敌方坦克线程
-            new Thread(enemyTank).start();
-            //给该enemyTank 加入一颗子弹
-            Shot shot = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirection());
-            //加入到enemyTank的Vector
-            enemyTank.shots.add(shot);
-            //启动 shot
-            new Thread(shot).start();
-            //敌方坦克加入进Vector
-            enemyTanks.add(enemyTank);
-        }
+
+
+
         //三张图片，来显示爆炸效果
         //初始化图片对象
 

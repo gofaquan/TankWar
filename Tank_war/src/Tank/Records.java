@@ -11,7 +11,7 @@ public class Records {
     private static BufferedWriter bw = null;
     private static String recordFile = "/home/archLinux/IdeaProjects/TankWar/Tank_war/src/Tank/myRecords.txt";
 
-
+    //定义坦克Vector存数量及位置
     private static Vector<EnemyTank> enemyTanks = null;
 
     public static void setAllEnemyTankNum(Vector<EnemyTank> enemyTanks) {
@@ -47,6 +47,36 @@ public class Records {
             }
 
         }
+    }
+    //定义Vector保存坦克信息
+    private static Vector<EnemyInfo> enemyInfos = new Vector<>();
+    //定义一个输入流
+    private static BufferedReader br = null;
+    //选择继续上局游戏调用
+    public static Vector<EnemyInfo> getEnemyInfos(){
+        try {
+            br = new BufferedReader(new FileReader(recordFile));
+            //读取数字string转int，确定上次游戏坦克数量
+            allEnemyTankNum = Integer.parseInt(br.readLine());
+            //确实上次坦克的位置
+            String Info = "";
+            while ((Info = br.readLine()) != null){
+                String[] xyd = Info.split(" ");
+                EnemyInfo enemyInfo = new EnemyInfo(Integer.parseInt(xyd[0]), Integer.parseInt(xyd[1]), Integer.parseInt(xyd[2]));
+                enemyInfos.add(enemyInfo);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null){
+                    br.close();
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
 
+        }
+        return null;
     }
 }
