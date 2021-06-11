@@ -25,7 +25,12 @@ public class Panel extends JPanel implements KeyListener, Runnable {
 
     public Panel(String option) {
         File file = new File(Records.getRecordFile());
-
+        if (file.exists()) {
+            enemyInfos = Records.getEnemyInfos();
+        } else {
+            System.out.println("文件不存在，只能开启新的游戏");
+            option = "1";
+        }
         enemyInfos = Records.getEnemyInfos();
         //同步上次的坦克数量及坐标
         Records.setAllEnemyTank(enemyTanks);
