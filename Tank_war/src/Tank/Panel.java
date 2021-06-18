@@ -101,6 +101,8 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         image1 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom1.png"));
         image2 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom2.png"));
         image3 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/boom3.png"));
+
+        new AePlayWave("/home/archLinux/IdeaProjects/TankWar/Tank_war/src/111.wav").start();
     }
 
     /**
