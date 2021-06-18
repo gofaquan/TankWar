@@ -15,13 +15,15 @@ import java.util.Scanner;
  * @version: V1.0
 */
 @SuppressWarnings({"all"})
-public class Tank_game extends JFrame {
+public class TankGame extends JFrame {
     //初始化画板
     Panel panel = null;
     //读取玩家输入的数字决定新游戏还是继续上局
     static Scanner scanner = new Scanner(System.in);
+
+    //启动游戏
     public static void main(String[] args) {
-        new Tank_game();
+        new TankGame();
     }
 
 
@@ -33,7 +35,7 @@ public class Tank_game extends JFrame {
      *@return:
      *main函数的核心
      */
-    public Tank_game(){
+    public TankGame(){
 
         System.out.println("请输入你的选择：         1： 新游戏                2：继续上局");
         String option = scanner.next();

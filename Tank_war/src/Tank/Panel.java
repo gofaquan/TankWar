@@ -21,7 +21,7 @@ import java.util.Vector;
 
 public class Panel extends JPanel implements KeyListener, Runnable {
     //定义我方坦克
-    MyTank my_tank = null;
+    MyTank myTank = null;
     //定义敌方坦克,放进Vector保存
     Vector<EnemyTank> enemyTanks = new Vector<>();
     //定义爆炸数，存进Vector
@@ -46,14 +46,15 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         }
 
         //初始化一个我方坦克
-        my_tank = new MyTank(900, 550);
+        myTank = new MyTank(900, 550);
 
         //选择新游戏还是继续上局
         switch (option) {
             case "1":   //新游戏
+                Records.setAllEnemyTankNum(0);
                 //初始化敌方坦克
                 for (int i = 0; i < enemyTank_nums; i++) {
-                    EnemyTank enemyTank = new EnemyTank((100 * (i + 1)), 0);
+                    EnemyTank enemyTank = new EnemyTank(100 * (i + 1), 0);
                     //传值给敌方坦克防止重叠
                     enemyTank.setEnemyTanks(enemyTanks);
                     //设置方向
@@ -104,7 +105,6 @@ public class Panel extends JPanel implements KeyListener, Runnable {
 
     /**
      *@title: showInfo
-     *@description: TODO
      *@author: archLinux
      *@date: 2021/6/11 上午7:58
      *@param: [g]
@@ -172,11 +172,11 @@ public class Panel extends JPanel implements KeyListener, Runnable {
 //            }
 //        }
         //单颗子弹。
-        if (my_tank.shot != null && my_tank.shot.isLive) {//当我的子弹还存活
+        if (myTank.shot != null && myTank.shot.isLive) {//当我的子弹还存活
             //遍历敌人所有的坦克
             for (int i = 0; i < enemyTanks.size(); i++) {
                 EnemyTank enemyTank = enemyTanks.get(i);
-                hitEnemy(my_tank.shot, enemyTank);
+                hitEnemy(myTank.shot, enemyTank);
             }
         }
     }
@@ -203,36 +203,36 @@ public class Panel extends JPanel implements KeyListener, Runnable {
     public void keyPressed(KeyEvent e) {
         //按下W/A/S/D按对应方向移动
         if (e.getKeyCode() == KeyEvent.VK_W) { //按下W键
-            my_tank.setDirection(0);   //向上
-            if (my_tank.getY() > 0) {
-                my_tank.moveUp();
+            myTank.setDirection(0);   //向上
+            if (myTank.getY() > 0) {
+                myTank.moveUp();
             }
         }
         else if (e.getKeyCode() == KeyEvent.VK_D) { //按下D键
-            my_tank.setDirection(1);   //向右
-            if (my_tank.getX() + 60 < 1000) {
+            myTank.setDirection(1);   //向右
+            if (myTank.getX() + 60 < 1000) {
 
-                my_tank.moveRight();
+                myTank.moveRight();
             }
         }
         else if (e.getKeyCode() == KeyEvent.VK_S) {//按下S键
-            my_tank.setDirection(2);   //向下
-            if (my_tank.getY() + 60 < 750) {
-                my_tank.moveDown();
+            myTank.setDirection(2);   //向下
+            if (myTank.getY() + 60 < 750) {
+                myTank.moveDown();
             }
         }
         else if (e.getKeyCode() == KeyEvent.VK_A) {//按下A键
-            my_tank.setDirection(3);   //向左
-            if (my_tank.getX() > 0) {
-                my_tank.moveLeft();
+            myTank.setDirection(3);   //向左
+            if (myTank.getX() > 0) {
+                myTank.moveLeft();
             }
         }
 
         //如果用户按下的是J,就发射
         if (e.getKeyCode() == KeyEvent.VK_J) {
             //发射单颗子弹
-            if (my_tank.shot == null || !my_tank.shot.isLive) {
-                my_tank.shotEnemyTank();
+            if (myTank.shot == null || !myTank.shot.isLive) {
+                myTank.shotEnemyTank();
             }
             //发射多颗子弹
 //            my_tank.shotEnemyTank();
@@ -256,12 +256,12 @@ public class Panel extends JPanel implements KeyListener, Runnable {
         g.fillRect(0, 0, 1000, 750);
         showInfo(g);
         //调用创建坦克方法生产自己的坦克
-        if (my_tank != null && my_tank.isLive) {
-            create_tank(my_tank.getX(), my_tank.getY(), g, my_tank.getDirection(), 0);
+        if (myTank != null && myTank.isLive) {
+            create_tank(myTank.getX(), myTank.getY(), g, myTank.getDirection(), 0);
         }
         //画出射击的子弹
-        if (my_tank.shot != null && my_tank.shot.isLive == true) {
-            g.draw3DRect(my_tank.shot.x, my_tank.shot.y, 5, 5, false);
+        if (myTank.shot != null && myTank.shot.isLive == true) {
+            g.draw3DRect(myTank.shot.x, myTank.shot.y, 5, 5, false);
 
         }
         //多颗子弹
@@ -458,8 +458,8 @@ public class Panel extends JPanel implements KeyListener, Runnable {
                 //取出子弹
                 Shot shot = enemyTank.shots.get(j);
                 //判断 shot 是否击中我的坦克
-                if (my_tank.isLive && shot.isLive) {
-                    hitEnemy(shot, my_tank);
+                if (myTank.isLive && shot.isLive) {
+                    hitEnemy(shot, myTank);
                 }
             }
         }

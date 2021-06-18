@@ -1,7 +1,7 @@
 package Tank;
 
 
-/**   
+/**
  * @title: Boom
  * @package Tank
  * @description: 
@@ -42,4 +42,7 @@ public class Boom {
         this.x = x;
         this.y = y;
     }
+
+
 }
+

@@ -23,9 +23,11 @@ public class Records {
     public static int getAllEnemyTankNum() {
         return allEnemyTankNum;
     }
+    public static void setAllEnemyTankNum(int allEnemyTankNum) {
+        Records.allEnemyTankNum = allEnemyTankNum;
+    }
 
-
-//存数据
+    //存数据
     //定义IO对象及路径,写数据到文件中
     private static BufferedWriter bw = null;
     private static String recordFilePath = "/home/archLinux/IdeaProjects/TankWar/Tank_war/src/Tank/myRecords.txt";
