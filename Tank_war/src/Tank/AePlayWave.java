@@ -8,6 +8,8 @@ import java.io.IOException;
  * @author 韩顺平
  * @version 1.0
  */
+
+@SuppressWarnings({"all"})
 public class AePlayWave extends Thread {
     private String filename;
 
